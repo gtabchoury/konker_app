@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
+import 'package:konker_app/pages/Login.dart';
 import 'package:konker_app/pages/Routes.dart';
-import 'package:konker_app/pages/login.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
