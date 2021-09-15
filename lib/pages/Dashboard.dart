@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyCard.dart';
+import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
+import 'package:konker_app/models/EventRoute.dart';
 import 'package:konker_app/services/DeviceService.dart';
+import 'package:konker_app/services/RouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -19,6 +22,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     String _userName = "Usuário";
 
     int _totalDevices = 0;
+    int _totalRoutes = 0;
 
     Future<String> loadUser() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -27,9 +31,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
       String? token = prefs.getString("token");
 
-      List<Device> devices = await DeviceService.getAll("default", token!);
+      if (token!=null){
+        List<Device> devices = await DeviceService.getAll("default", token);
+        List<EventRoute> routes = await RouteService.getAll("default", token);
 
-      _totalDevices = devices.length;
+        _totalDevices = devices.length;
+        _totalRoutes = routes.length;
+      }
 
       return _userName;
     }
@@ -90,11 +98,16 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             Navigator.pushNamed(context, "/devices");
                           },
                         ),
-                        MyCard(
-                          icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
-                          color: Color(0xffbfbaf41),
-                          title: "ROTEADOR DE EVENTOS",
-                          count: 2,
+                        GestureDetector(
+                          child: MyCard(
+                            icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
+                            color: Color(0xffbfbaf41),
+                            title: "ROTEADOR DE EVENTOS",
+                            count: _totalRoutes,
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/routes");
+                          },
                         )
                       ],),
                     Row(
@@ -134,7 +147,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return MyLoading();
           }
         }
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
+import 'package:konker_app/pages/Routes.dart';
 import 'package:konker_app/pages/login.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         "/dashboard": (_) => new DashBoardPage(),
         "/login": (_) => LoginPage(),
         "/devices": (_) => DevicesPage(),
+        "/routes": (_) => RoutesPage(),
       },
     );
   }
