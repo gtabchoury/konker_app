@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MyLoading extends StatefulWidget {
-  const MyLoading({Key? key}) : super(key: key);
+  final Color color;
+
+  MyLoading({
+    this.color = Colors.black,
+  });
 
   @override
   _MyLoadingState createState() => _MyLoadingState();
@@ -23,6 +27,7 @@ class _MyLoadingState extends State<MyLoading> {
                 ),
                 CircularProgressIndicator(
                   semanticsLabel: 'Carregando...',
+                  color: widget.color,
                 ),
               ],
             ),

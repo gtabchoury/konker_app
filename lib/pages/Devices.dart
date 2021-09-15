@@ -21,14 +21,7 @@ class _DevicesPageState extends State<DevicesPage> {
 
     String _dispositivos = "";
 
-    List<TableRow> _rows = <TableRow>[
-      new TableRow(
-        children: <Widget>[
-          Text("Nome", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
-          Text("Ativo", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
-        ],
-      ),
-    ];
+    List<DataRow> _rows = <DataRow>[];
 
     Future<bool> loadDevices() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,14 +31,14 @@ class _DevicesPageState extends State<DevicesPage> {
       List<Device> devices = await DeviceService.getAll("default", token!);
 
       for (Device d in devices){
-        _rows.add(new TableRow(
-          children: <Widget>[
-            Text(d.name, style: TextStyle(fontSize: 20),),
-            Text(d.active.toString(), style: TextStyle(fontSize: 20),)
+        _rows.add(new DataRow(
+          cells: [
+            DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
           ],
         ));
       }
-
       return true;
     }
 
@@ -56,23 +49,32 @@ class _DevicesPageState extends State<DevicesPage> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xffb00a69c),
-                title: Text("Meus Dispositivos",
+                title: Text("Dispositivos",
                   style: TextStyle(color: Colors.white, fontSize: 15),),
               ),
-              body: Container(
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(10, 20, 10, 20),
-                    child: SingleChildScrollView(
-                      child: Table(
-                        children: _rows,
-                      ),
-                    )
-                  )
-                ),),
+              body: ListView(children: <Widget>[
+                DataTable(
+                    columns: [
+                      DataColumn(label: Text(
+                          'ID',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Name',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Ativo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                    ],
+                    rows: _rows,
+                  columnSpacing: 0,
+                ),
+              ])
             );
           } else {
-            return MyLoading();
+            return MyLoading(color: Color(0xffb00a69c),);
           }
         }
     );
