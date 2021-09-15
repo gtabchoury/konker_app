@@ -25,15 +25,15 @@ class RestDestination {
 
   factory RestDestination.fromJson(Map<String, dynamic> parsedJson){
     return RestDestination(
-        guid: parsedJson['result']['guid']?? null,
-        name: parsedJson['result']['name'],
-        method: parsedJson['result']['method'],
+        guid: parsedJson['guid']?? null,
+        name: parsedJson['name'],
+        method: parsedJson['method'],
         //HeadersInline
-        serviceURI: parsedJson['result']['serviceURI'],
-        serviceUsername: parsedJson['result']['serviceUsername']?? null,
-        servicePassword: parsedJson['result']['servicePassword']?? null,
-        type: parsedJson['result']['type'],
-        body: parsedJson['result']['body']?? null);
+        serviceURI: parsedJson['serviceURI'],
+        serviceUsername: parsedJson['serviceUsername']?? null,
+        servicePassword: parsedJson['servicePassword']?? null,
+        type: parsedJson['type'],
+        body: parsedJson['body']?? null);
   }
 
 }

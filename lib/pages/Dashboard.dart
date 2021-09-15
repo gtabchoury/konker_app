@@ -119,11 +119,16 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           title: "TRANSFORMAÇÕES",
                           count: 0,
                         ),
-                        MyCard(
-                          icon: Icon(Icons.accessibility_new, size: 40, color: Colors.white),
-                          color: Color(0xffb667978),
-                          title: "DESTINOS REST",
-                          count: 2,
+                        GestureDetector(
+                          child: MyCard(
+                            icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
+                            color: Color(0xffbfbaf41),
+                            title: "DESTINOS REST",
+                            count: _totalRoutes,
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/restDestinations");
+                          },
                         )
                       ],),
                     Row(
