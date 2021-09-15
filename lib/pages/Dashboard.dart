@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyCard.dart';
+import 'package:konker_app/models/Device.dart';
+import 'package:konker_app/services/DeviceService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardPage extends StatefulWidget {
@@ -16,11 +18,18 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
     String _userName = "Usuário";
 
+    int _totalDevices = 0;
+
     Future<String> loadUser() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       _userName = prefs.getString("name")!;
-      print(_userName);
+
+      String? token = prefs.getString("token");
+
+      List<Device> devices = await DeviceService.getAll("default", token!);
+
+      _totalDevices = devices.length;
 
       return _userName;
     }
@@ -74,7 +83,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           icon: Icon(Icons.devices, size: 40, color: Colors.white),
                           color: Color(0xffb00a69c),
                           title: "DISPOSITIVOS",
-                          count: 10,
+                          count: _totalDevices,
                         ),
                         MyCard(
                           icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
