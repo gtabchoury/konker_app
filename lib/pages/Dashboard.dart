@@ -79,11 +79,16 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        MyCard(
-                          icon: Icon(Icons.devices, size: 40, color: Colors.white),
-                          color: Color(0xffb00a69c),
-                          title: "DISPOSITIVOS",
-                          count: _totalDevices,
+                        GestureDetector(
+                          child: MyCard(
+                              icon: Icon(Icons.devices, size: 40, color: Colors.white),
+                              color: Color(0xffb00a69c),
+                              title: "DISPOSITIVOS",
+                              count: _totalDevices,
+                            ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/devices");
+                          },
                         ),
                         MyCard(
                           icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
