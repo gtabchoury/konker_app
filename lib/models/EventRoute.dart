@@ -1,23 +1,23 @@
 class EventRoute {
-
-  EventRoute(
-      this.name,
-      this.description,
-      this.active,
-      this.guid
-  );
-
   String name;
-  String description;
+  String? description;
   bool active;
-  String guid;
+  String? guid;
+
+  EventRoute({
+      required this.name,
+      this.description,
+      required this.active,
+      this.guid
+  });
+
 
   factory EventRoute.fromJson(Map<String, dynamic> parsedJson){
     return EventRoute(
-        parsedJson['name'] ?? "",
-        parsedJson ['description'] ?? "",
-        parsedJson ['active'] ?? false,
-        parsedJson ['guid'] ?? ""
+      name: parsedJson['name'],
+      description: parsedJson ['description'] ?? null,
+      active: parsedJson ['active'] ?? false,
+      guid: parsedJson ['guid'] ?? null
     );
   }
 }

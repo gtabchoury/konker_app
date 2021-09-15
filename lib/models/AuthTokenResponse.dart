@@ -1,4 +1,7 @@
 class AuthTokenResponse {
+  String access_token;
+  String token_type;
+  int expires_in;
 
   AuthTokenResponse({
     required this.access_token,
@@ -6,9 +9,6 @@ class AuthTokenResponse {
     required this.expires_in,
   });
 
-  String access_token;
-  String token_type;
-  int expires_in;
 
   factory AuthTokenResponse.fromJson(Map<String, dynamic> parsedJson){
     return AuthTokenResponse(
