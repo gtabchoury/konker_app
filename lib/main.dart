@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/pages/Dashboard.dart';
+import 'package:konker_app/pages/Devices.dart';
 import 'package:konker_app/pages/Login.dart';
 
 void main() {
