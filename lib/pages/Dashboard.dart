@@ -151,7 +151,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                           child: MyCard(
                             icon: Icon(Icons.alt_route, size: 40, color: Colors.white),
                             color: Color(0xffbfbaf41),
-                            title: "ROTEADOR DE EVENTOS",
+                            title: "ROTEADORES DE EVENTOS",
                             count: _totalRoutes,
                           ),
                           onTap: () {
