@@ -2,40 +2,41 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
-import 'package:konker_app/models/Device.dart';
-import 'package:konker_app/services/DeviceService.dart';
+import 'package:konker_app/models/EventRoute.dart';
+import 'package:konker_app/models/Gateway.dart';
+import 'package:konker_app/services/GatewayService.dart';
+import 'package:konker_app/services/RouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class DevicesPage extends StatefulWidget {
-  const DevicesPage({Key? key}) : super(key: key);
+class GatewayPage extends StatefulWidget {
+  const GatewayPage({Key? key}) : super(key: key);
 
   @override
-  _DevicesPageState createState() => _DevicesPageState();
+  _GatewayPageState createState() => _GatewayPageState();
 }
 
-class _DevicesPageState extends State<DevicesPage> {
-
+class _GatewayPageState extends State<GatewayPage> {
   @override
   Widget build(BuildContext context) {
 
-    String _dispositivos = "";
+    String _gateways = "";
 
     List<DataRow> _rows = <DataRow>[];
 
-    Future<bool> loadDevices() async {
+    Future<bool> loadGateways() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("token");
 
-      List<Device> devices = await DeviceService.getAll("default", token!);
+      List<Gateway> gateways = await GatewayService.getAll("default", token!);
 
-      for (Device d in devices){
+      for (Gateway d in gateways){
         _rows.add(new DataRow(
           cells: [
-            DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
+            DataCell(Text(d.description!, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.active ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active ? Colors.green : Colors.red),)),
           ],
         ));
       }
@@ -43,24 +44,24 @@ class _DevicesPageState extends State<DevicesPage> {
     }
 
     return FutureBuilder<bool>(
-        future: loadDevices(),
+        future: loadGateways(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Color(0xffb00a69c),
-                title: Text("Dispositivos",
-                  style: TextStyle(color: Colors.white, fontSize: 15),),
-              ),
-              body: ListView(children: <Widget>[
-                DataTable(
+                appBar: AppBar(
+                  backgroundColor: Color(0xffbe54182),
+                  title: Text("Gateways",
+                    style: TextStyle(color: Colors.white, fontSize: 15),),
+                ),
+                body: ListView(children: <Widget>[
+                  DataTable(
                     columns: [
                       DataColumn(label: Text(
-                          'ID',
+                          'Nome',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
-                          'Name',
+                          'Descrição',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
@@ -69,17 +70,14 @@ class _DevicesPageState extends State<DevicesPage> {
                       )),
                     ],
                     rows: _rows,
-                  columnSpacing: 20,
-                ),
-              ])
+                    columnSpacing: 20,
+                  ),
+                ])
             );
           } else {
-            return MyLoading(color: Color(0xffb00a69c),);
+            return MyLoading(color: Color(0xffbe54182),);
           }
         }
     );
   }
-
-
-
 }
