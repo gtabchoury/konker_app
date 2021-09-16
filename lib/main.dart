@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:konker_app/models/RestDestination.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
 import 'package:konker_app/pages/Gateways.dart';
 import 'package:konker_app/pages/Login.dart';
 import 'package:konker_app/pages/Profile.dart';
 import 'package:konker_app/pages/Routes.dart';
+import 'package:konker_app/pages/RestDestinations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
         "/routes": (_) => RoutesPage(),
         "/profile": (_) => ProfilePage(),
         "/gateways": (_) => GatewayPage(),
+        "/rest-destinations": (_) => RestDestinationsPage(),
       },
     );
   }

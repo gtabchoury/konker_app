@@ -173,11 +173,16 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             Navigator.pushNamed(context, "/gateways");
                           },
                         ),
-                        MyCard(
-                          icon: Icon(Icons.vpn_lock, size: 40, color: Colors.white),
-                          color: Color(0xffb667978),
-                          title: "DESTINOS REST",
-                          count: 2,
+                        GestureDetector(
+                          child: MyCard(
+                            icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
+                            color: Color(0xffb667978),
+                            title: "DESTINOS REST",
+                            count: _totalRoutes,
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/rest-destinations");
+                          },
                         )
                       ],),
                     Row(
