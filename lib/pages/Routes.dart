@@ -33,6 +33,8 @@ class _RoutesPageState extends State<RoutesPage> {
         _rows.add(new DataRow(
           cells: [
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.incomingType!, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.outgoingType!, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.active ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active ? Colors.green : Colors.red),)),
           ],
         ));
@@ -54,7 +56,15 @@ class _RoutesPageState extends State<RoutesPage> {
                   DataTable(
                     columns: [
                       DataColumn(label: Text(
-                          'Name',
+                          'Nome',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Tipo Origem',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Tipo Destino',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
@@ -63,7 +73,7 @@ class _RoutesPageState extends State<RoutesPage> {
                       )),
                     ],
                     rows: _rows,
-                    columnSpacing: 0,
+                    columnSpacing: 20,
                   ),
                 ])
             );
