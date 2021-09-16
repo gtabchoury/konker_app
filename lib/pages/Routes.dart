@@ -18,11 +18,9 @@ class _RoutesPageState extends State<RoutesPage> {
   @override
   Widget build(BuildContext context) {
 
-    String _dispositivos = "";
-
     List<DataRow> _rows = <DataRow>[];
 
-    Future<bool> loadDevices() async {
+    Future<bool> loadRoutes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("token");
@@ -43,7 +41,7 @@ class _RoutesPageState extends State<RoutesPage> {
     }
 
     return FutureBuilder<bool>(
-        future: loadDevices(),
+        future: loadRoutes(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(

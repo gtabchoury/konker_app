@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyCard.dart';
+import 'package:konker_app/components/MyCardHelp.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
 import 'package:konker_app/models/EventRoute.dart';
@@ -9,6 +10,7 @@ import 'package:konker_app/services/DeviceService.dart';
 import 'package:konker_app/services/GatewayService.dart';
 import 'package:konker_app/services/RouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage({Key? key}) : super(key: key);
@@ -69,6 +71,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
       return _userName;
     }
 
+    _launchURL(String url) async {
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
+    }
+
     return FutureBuilder<String>(
         future: loadUser(),
         builder: (context, AsyncSnapshot<String> snapshot) {
@@ -123,14 +129,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   style: TextStyle(color: Colors.white, fontSize: 15),),
               ),
               body: Container(
-                height: 450,
-                width: 450,
-                padding: EdgeInsets.fromLTRB(40,50,40,50),
+                padding: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
                           child: MyCard(
@@ -156,7 +160,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                         )
                       ],),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
                           child: MyCard(
@@ -169,11 +173,40 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             Navigator.pushNamed(context, "/gateways");
                           },
                         ),
-                        MyCard(
-                          icon: Icon(Icons.vpn_lock, size: 40, color: Colors.white),
-                          color: Color(0xffb667978),
-                          title: "DESTINOS REST",
-                          count: 2,
+                        GestureDetector(
+                          child: MyCard(
+                            icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
+                            color: Color(0xffb667978),
+                            title: "DESTINOS REST",
+                            count: _totalRoutes,
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, "/rest-destinations");
+                          },
+                        )
+                      ],),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          child: MyCardHelp(
+                            icon: Icon(Icons.help, size: 40, color: Colors.white),
+                            color: Color(0xffbadc9d4),
+                            title: "PRECISA DE AJUDA COM A PLATAFORMA?",
+                          ),
+                          onTap: () {
+                            _launchURL('https://konker.atlassian.net/wiki/spaces/DEV/pages/28180518/Guia+de+Uso+da+Plataforma+Konker');
+                          },
+                        ),
+                        GestureDetector(
+                          child: MyCardHelp(
+                            icon: Icon(Icons.chat, size: 40, color: Colors.white),
+                            color: Color(0xffbadc9d4),
+                            title: "PRECISA DE SUPORTE DA NOSSA EQUIPE?"
+                          ),
+                          onTap: () {
+                            _launchURL('http://www.konkerlabs.com/#contact');
+                          },
                         )
                       ],),
                   ],
@@ -181,7 +214,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               ),
             );
           } else {
-            return MyLoading();
+            return MyLoading(color: Color(0xffb051435),);
           }
         }
     );

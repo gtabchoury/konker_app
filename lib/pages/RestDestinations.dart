@@ -2,40 +2,38 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
-import 'package:konker_app/models/Device.dart';
-import 'package:konker_app/services/DeviceService.dart';
+import 'package:konker_app/models/RestDestination.dart';
+import 'package:konker_app/services/RestDestinationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
-class DevicesPage extends StatefulWidget {
-  const DevicesPage({Key? key}) : super(key: key);
+class RestDestinationsPage extends StatefulWidget {
+  const RestDestinationsPage({Key? key}) : super(key: key);
 
   @override
-  _DevicesPageState createState() => _DevicesPageState();
+  _RestDestinationsPageState createState() => _RestDestinationsPageState();
 }
 
-class _DevicesPageState extends State<DevicesPage> {
+class _RestDestinationsPageState extends State<RestDestinationsPage> {
 
   @override
   Widget build(BuildContext context) {
 
-    String _dispositivos = "";
-
     List<DataRow> _rows = <DataRow>[];
 
-    Future<bool> loadDevices() async {
+    Future<bool> loadRestDestinations() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("token");
 
-      List<Device> devices = await DeviceService.getAll("default", token!);
+      List<RestDestination> restDestinations = await RestDestinationService.getAll("default", token!);
 
-      for (Device d in devices){
+      for (RestDestination d in restDestinations){
         _rows.add(new DataRow(
           cells: [
-            DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
+            DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
           ],
         ));
       }
@@ -43,38 +41,38 @@ class _DevicesPageState extends State<DevicesPage> {
     }
 
     return FutureBuilder<bool>(
-        future: loadDevices(),
+        future: loadRestDestinations(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Color(0xffb00a69c),
-                title: Text("Dispositivos",
+                backgroundColor: Color(0xffb667978),
+                title: Text("Destinos Rest",
                   style: TextStyle(color: Colors.white, fontSize: 15),),
               ),
               body: ListView(children: <Widget>[
                 DataTable(
                     columns: [
                       DataColumn(label: Text(
-                          'ID',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
                           'Nome',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
-                          'Ativo',
+                          'Método',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Tipo',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                     ],
                     rows: _rows,
-                  columnSpacing: 20,
+                  columnSpacing: 0,
                 ),
               ])
             );
           } else {
-            return MyLoading(color: Color(0xffb00a69c),);
+            return MyLoading(color: Color(0xffb667978),);
           }
         }
     );
