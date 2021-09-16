@@ -21,14 +21,14 @@ class _MyLoadingState extends State<MyLoading> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Text(
-                  'Carregando...',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                CircularProgressIndicator(
-                  semanticsLabel: 'Carregando...',
-                  color: widget.color,
-                ),
+                Container(
+                  width: 80,
+                  height: 80,
+                  child: CircularProgressIndicator(
+                    semanticsLabel: 'Carregando...',
+                    color: widget.color,
+                    strokeWidth: 6,
+                  ),),
               ],
             ),
           )

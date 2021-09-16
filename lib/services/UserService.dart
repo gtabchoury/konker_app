@@ -43,7 +43,6 @@ class UserService {
     if (response.statusCode == 200) {
       return true;
     } else {
-      print(">>>"+response.body);
       throw Exception(response.body);
     }
   }
