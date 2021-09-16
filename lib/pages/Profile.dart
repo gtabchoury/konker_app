@@ -21,7 +21,6 @@ class _ProfilePageState extends State<ProfilePage> {
     TextEditingController _nameController = new TextEditingController();
     TextEditingController _phoneController = new TextEditingController();
 
-    String _dispositivos = "";
     User _user;
     String _token = "";
 
@@ -38,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       }
     }
 
-    Future<bool> loadDevices() async {
+    Future<bool> loadProfile() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       _token = prefs.getString("token")!;
@@ -53,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return FutureBuilder<bool>(
-        future: loadDevices(),
+        future: loadProfile(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
