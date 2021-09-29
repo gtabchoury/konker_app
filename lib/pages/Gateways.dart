@@ -50,8 +50,22 @@ class _GatewayPageState extends State<GatewayPage> {
             return Scaffold(
                 appBar: AppBar(
                   backgroundColor: Color(0xffbe54182),
-                  title: Text("Gateways",
-                    style: TextStyle(color: Colors.white, fontSize: 15),),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Gateways",
+                        style: TextStyle(color: Colors.white, fontSize: 15),),
+                      RaisedButton.icon(
+                          onPressed: (){
+                            Navigator.pushNamed(context, "/new-gateway");
+                          },
+                          color: Colors.white,
+                          textColor: Color(0xffbe54182),
+                          icon: Icon(Icons.add),
+                          label: Text("Criar Novo", style: TextStyle(fontSize: 14),)
+                      ),
+                    ],
+                )
                 ),
                 body: ListView(children: <Widget>[
                   DataTable(

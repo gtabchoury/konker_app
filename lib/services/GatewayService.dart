@@ -23,4 +23,27 @@ class GatewayService {
       throw Exception("Erro ao obter gateways");
     }
   }
+
+  static Future<Gateway> create(Gateway gateway, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json'
+    };
+
+    var jsonBody = jsonEncode(gateway.toJson());
+
+    print(jsonBody);
+
+    http.Response response = await http.post(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/gateways/'),
+        headers: headers,
+        body: jsonBody
+    );
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return Gateway.fromJson(json.decode(response.body));
+    } else {
+      throw Exception("Erro ao cadastrar gateway: "+json.decode(response.body)['error_description']);
+    }
+  }
 }

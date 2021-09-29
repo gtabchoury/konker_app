@@ -49,8 +49,22 @@ class _DevicesPageState extends State<DevicesPage> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xffb00a69c),
-                title: Text("Dispositivos",
-                  style: TextStyle(color: Colors.white, fontSize: 15),),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Dispositivos",
+                      style: TextStyle(color: Colors.white, fontSize: 15),),
+                    RaisedButton.icon(
+                        onPressed: (){
+                          Navigator.pushNamed(context, "/new-device");
+                        },
+                        color: Colors.white,
+                        textColor: Color(0xffb00a69c),
+                        icon: Icon(Icons.add),
+                        label: Text("Criar Novo", style: TextStyle(fontSize: 14),)
+                    ),
+                  ],
+                )
               ),
               body: ListView(children: <Widget>[
                 DataTable(
