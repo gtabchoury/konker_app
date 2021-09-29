@@ -15,7 +15,6 @@ class RestDestination {
     this.guid,
     required this.name,
     required this.method,
-    //HeadersInline
     required this.serviceURI,
     this.serviceUsername,
     this.servicePassword,
@@ -28,7 +27,6 @@ class RestDestination {
         guid: parsedJson['guid']?? null,
         name: parsedJson['name'],
         method: parsedJson['method'],
-        //HeadersInline
         serviceURI: parsedJson['serviceURI'],
         serviceUsername: parsedJson['serviceUsername']?? null,
         servicePassword: parsedJson['servicePassword']?? null,
@@ -36,4 +34,16 @@ class RestDestination {
         body: parsedJson['body']?? null);
   }
 
+
+  Map<String, dynamic> toJson() =>
+      {
+          'guid': guid,
+          'name': name,
+          'method': method,
+          'serviceURI': serviceURI,
+          'serviceUsername': serviceUsername,
+          'servicePassword': servicePassword,
+          'type': type,
+          'body': body,
+      };
 }
