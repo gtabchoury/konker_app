@@ -19,8 +19,6 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
   @override
   Widget build(BuildContext context) {
 
-    String _dispositivos = "";
-
     List<DataRow> _rows = <DataRow>[];
 
     Future<bool> loadRestDestinations() async {
@@ -33,9 +31,9 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
       for (RestDestination d in restDestinations){
         _rows.add(new DataRow(
           cells: [
-            // DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
-            // DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
+            DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
           ],
         ));
       }
@@ -48,25 +46,25 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
           if (snapshot.hasData) {
             return Scaffold(
               appBar: AppBar(
-                backgroundColor: Color(0xffb00a69c),
+                backgroundColor: Color(0xffb667978),
                 title: Text("Destinos Rest",
                   style: TextStyle(color: Colors.white, fontSize: 15),),
               ),
               body: ListView(children: <Widget>[
                 DataTable(
                     columns: [
-                      // DataColumn(label: Text(
-                      //     'ID',
-                      //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      // )),
                       DataColumn(label: Text(
-                          'Name',
+                          'Nome',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
-                      // DataColumn(label: Text(
-                      //     'Ativo',
-                      //     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      // )),
+                      DataColumn(label: Text(
+                          'Método',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          'Tipo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
                     ],
                     rows: _rows,
                   columnSpacing: 0,
@@ -74,7 +72,7 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
               ])
             );
           } else {
-            return MyLoading(color: Color(0xffb00a69c),);
+            return MyLoading(color: Color(0xffb667978),);
           }
         }
     );

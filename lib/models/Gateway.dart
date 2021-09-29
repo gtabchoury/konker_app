@@ -1,29 +1,33 @@
-class EventRoute {
+class Gateway {
   String name;
   String? description;
+  String? locationName;
   bool active;
   String? guid;
-  String? incomingType;
-  String? outgoingType;
 
-  EventRoute({
+  Gateway({
       required this.name,
       this.description,
+      this.locationName,
       required this.active,
       this.guid,
-      this.incomingType,
-      this.outgoingType
   });
 
 
-  factory EventRoute.fromJson(Map<String, dynamic> parsedJson){
-    return EventRoute(
+  factory Gateway.fromJson(Map<String, dynamic> parsedJson){
+    return Gateway(
         name: parsedJson['name'],
         description: parsedJson ['description'] ?? null,
         active: parsedJson ['active'] ?? false,
         guid: parsedJson ['guid'] ?? null,
-        incomingType: parsedJson ['incoming']['type'] ?? null,
-        outgoingType: parsedJson ['outgoing']['type'] ?? null
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'name': name,
+        'description': description,
+        'locationName': locationName,
+        'active': active,
+      };
 }

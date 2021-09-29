@@ -32,4 +32,15 @@ class Device {
     );
   }
 
+  Map<String, dynamic> toJson() =>
+  {
+    'id': id,
+    'name': name,
+    'description': description,
+    'locationName': locationName,
+    'deviceModelName': deviceModelName,
+    'active': active,
+    'debug': debug,
+  };
+
 }

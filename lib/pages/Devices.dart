@@ -5,7 +5,7 @@ import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 class DevicesPage extends StatefulWidget {
   const DevicesPage({Key? key}) : super(key: key);
@@ -23,6 +23,29 @@ class _DevicesPageState extends State<DevicesPage> {
 
     List<DataRow> _rows = <DataRow>[];
 
+    Future<void> _removeDevice(String deviceGuid, String deviceName) async {
+      if (await confirm(
+        context,
+        title: Text(deviceName),
+        content: Text('Deseja realmente remover este dispositivo?'),
+        textOK: Text('Sim'),
+        textCancel: Text('Cancelar'),
+      )){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        String? token = prefs.getString("token");
+
+        try{
+          await DeviceService.delete(deviceGuid, "default", token!);
+        } on Exception catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    }
+
     Future<bool> loadDevices() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -36,6 +59,7 @@ class _DevicesPageState extends State<DevicesPage> {
             DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeDevice(d.guid!, d.name);}))
           ],
         ));
       }
@@ -49,8 +73,22 @@ class _DevicesPageState extends State<DevicesPage> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xffb00a69c),
-                title: Text("Dispositivos",
-                  style: TextStyle(color: Colors.white, fontSize: 15),),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Dispositivos",
+                      style: TextStyle(color: Colors.white, fontSize: 15),),
+                    RaisedButton.icon(
+                        onPressed: (){
+                          Navigator.pushNamed(context, "/new-device");
+                        },
+                        color: Colors.white,
+                        textColor: Color(0xffb00a69c),
+                        icon: Icon(Icons.add),
+                        label: Text("Criar Novo", style: TextStyle(fontSize: 14),)
+                    ),
+                  ],
+                )
               ),
               body: ListView(children: <Widget>[
                 DataTable(
@@ -60,16 +98,20 @@ class _DevicesPageState extends State<DevicesPage> {
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
-                          'Name',
+                          'Nome',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
                           'Ativo',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
                     ],
                     rows: _rows,
-                  columnSpacing: 0,
+                  columnSpacing: 20,
                 ),
               ])
             );

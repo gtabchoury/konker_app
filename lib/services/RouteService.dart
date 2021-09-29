@@ -20,7 +20,7 @@ class RouteService {
       Iterable l = json.decode(response.body)['result'];
       return List<EventRoute>.from(l.map((model)=> EventRoute.fromJson(model)));
     } else {
-      throw Exception("Erro ao obter dispositivos");
+      throw Exception("Erro ao obter roteadores de eventos");
     }
   }
 }

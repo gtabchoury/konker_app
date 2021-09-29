@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:konker_app/models/RestDestination.dart';
+import 'package:konker_app/pages/AddDevice.dart';
+import 'package:konker_app/pages/AddGateway.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
+import 'package:konker_app/pages/Gateways.dart';
 import 'package:konker_app/pages/Login.dart';
+import 'package:konker_app/pages/Profile.dart';
 import 'package:konker_app/pages/Routes.dart';
 import 'package:konker_app/pages/RestDestinations.dart';
 
@@ -22,11 +26,15 @@ class MyApp extends StatelessWidget {
       ),
       home: LoginPage(),
       routes: {
-        "/dashboard": (_) => new DashBoardPage(),
+        "/dashboard": (_) => DashBoardPage(),
         "/login": (_) => LoginPage(),
         "/devices": (_) => DevicesPage(),
         "/routes": (_) => RoutesPage(),
-        "/restDestinations": (_) => RestDestinationsPage(),
+        "/profile": (_) => ProfilePage(),
+        "/gateways": (_) => GatewayPage(),
+        "/rest-destinations": (_) => RestDestinationsPage(),
+        "/new-device": (_) => AddDevicePage(),
+        "/new-gateway": (_) => AddGatewayPage(),
       },
     );
   }

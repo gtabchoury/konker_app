@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/models/AuthTokenResponse.dart';
 import 'package:konker_app/models/User.dart';
+import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/services/LoginService.dart';
 import 'package:konker_app/services/UserService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,26 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController _loginController = new TextEditingController();
   TextEditingController _passwordController = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    autoLogIn();
+  }
+
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+    String? email = prefs.getString("email");
+
+    if (token != null && email != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => DashBoardPage()),
+            (Route<dynamic> route) => false,
+      );
+    }
+  }
 
   Future<void> _executeLogin() async {
     try{
@@ -35,7 +56,11 @@ class _LoginPageState extends State<LoginPage> {
         backgroundColor: Colors.green,
       ));
 
-      Navigator.pushNamed(context, "/dashboard");
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => DashBoardPage()),
+            (Route<dynamic> route) => false,
+      );
 
     } on Exception catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
