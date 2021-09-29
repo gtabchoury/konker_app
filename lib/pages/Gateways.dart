@@ -7,7 +7,7 @@ import 'package:konker_app/models/Gateway.dart';
 import 'package:konker_app/services/GatewayService.dart';
 import 'package:konker_app/services/RouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 class GatewayPage extends StatefulWidget {
   const GatewayPage({Key? key}) : super(key: key);
@@ -24,6 +24,29 @@ class _GatewayPageState extends State<GatewayPage> {
 
     List<DataRow> _rows = <DataRow>[];
 
+    Future<void> _removeGateway(String gatewayGuid, String gatewayName) async {
+      if (await confirm(
+        context,
+        title: Text(gatewayName),
+        content: Text('Deseja realmente remover este gateway?'),
+        textOK: Text('Sim'),
+        textCancel: Text('Cancelar'),
+      )){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        String? token = prefs.getString("token");
+
+        try{
+          await GatewayService.delete(gatewayGuid, "default", token!);
+        } on Exception catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    }
+
     Future<bool> loadGateways() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -37,6 +60,7 @@ class _GatewayPageState extends State<GatewayPage> {
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.description!, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.active ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active ? Colors.green : Colors.red),)),
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeGateway(d.guid!, d.name);}))
           ],
         ));
       }
@@ -80,6 +104,10 @@ class _GatewayPageState extends State<GatewayPage> {
                       )),
                       DataColumn(label: Text(
                           'Ativo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                     ],

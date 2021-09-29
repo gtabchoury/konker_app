@@ -32,8 +32,6 @@ class GatewayService {
 
     var jsonBody = jsonEncode(gateway.toJson());
 
-    print(jsonBody);
-
     http.Response response = await http.post(
         Uri.parse('${Constants.BASE_API_URL}/$applicationName/gateways/'),
         headers: headers,
@@ -44,6 +42,23 @@ class GatewayService {
       return Gateway.fromJson(json.decode(response.body));
     } else {
       throw Exception("Erro ao cadastrar gateway: "+json.decode(response.body)['error_description']);
+    }
+  }
+
+  static Future<bool> delete(String gatewayGuid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+    };
+
+    http.Response response = await http.delete(
+      Uri.parse('${Constants.BASE_API_URL}/$applicationName/gateways/$gatewayGuid'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erro ao remover gateway: "+json.decode(response.body)['error_description']);
     }
   }
 }

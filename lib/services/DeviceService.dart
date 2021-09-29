@@ -31,8 +31,6 @@ class DeviceService {
 
     var jsonBody = jsonEncode(device.toJson());
 
-    print(jsonBody);
-
     http.Response response = await http.post(
         Uri.parse('${Constants.BASE_API_URL}/$applicationName/devices/'),
         headers: headers,
@@ -43,6 +41,23 @@ class DeviceService {
       return Device.fromJson(json.decode(response.body));
     } else {
       throw Exception("Erro ao cadastrar dispositivo: "+json.decode(response.body)['error_description']);
+    }
+  }
+
+  static Future<bool> delete(String deviceGuid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+    };
+
+    http.Response response = await http.delete(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/devices/$deviceGuid'),
+        headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erro ao remover dispositivo: "+json.decode(response.body)['error_description']);
     }
   }
 }
