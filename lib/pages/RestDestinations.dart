@@ -5,6 +5,7 @@ import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/RestDestination.dart';
 import 'package:konker_app/services/RestDestinationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 
 class RestDestinationsPage extends StatefulWidget {
@@ -21,6 +22,29 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
 
     List<DataRow> _rows = <DataRow>[];
 
+    Future<void> _removeRestDestination(String restDestinationGuid, String restDestinationName) async {
+      if (await confirm(
+        context,
+        title: Text(restDestinationName),
+        content: Text('Deseja realmente remover este destino Rest?'),
+        textOK: Text('Sim'),
+        textCancel: Text('Cancelar'),
+      )){
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        String? token = prefs.getString("token");
+
+        try{
+          await RestDestinationService.delete(restDestinationGuid, "default", token!);
+        } on Exception catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Colors.red,
+          ));
+        }
+      }
+    }
+
     Future<bool> loadRestDestinations() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -34,6 +58,7 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);}))
           ],
         ));
       }
@@ -47,8 +72,22 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
             return Scaffold(
               appBar: AppBar(
                 backgroundColor: Color(0xffb667978),
-                title: Text("Destinos Rest",
-                  style: TextStyle(color: Colors.white, fontSize: 15),),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Destinos Rest",
+                        style: TextStyle(color: Colors.white, fontSize: 15),),
+                      RaisedButton.icon(
+                          onPressed: (){
+                            Navigator.pushNamed(context, "/new-rest-destination");
+                          },
+                          color: Colors.white,
+                          textColor: Color(0xffb667978),
+                          icon: Icon(Icons.add),
+                          label: Text("Criar Novo", style: TextStyle(fontSize: 14),)
+                      ),
+                    ],
+                  )
               ),
               body: ListView(children: <Widget>[
                 DataTable(
@@ -63,6 +102,10 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
                       )),
                       DataColumn(label: Text(
                           'Tipo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                     ],

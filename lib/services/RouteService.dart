@@ -23,4 +23,21 @@ class RouteService {
       throw Exception("Erro ao obter roteadores de eventos");
     }
   }
+
+  static Future<bool> delete(String eventRouteUuid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+    };
+
+    http.Response response = await http.delete(
+      Uri.parse('${Constants.BASE_API_URL}/$applicationName/routes/$eventRouteUuid'),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erro ao remover roteador de evento: "+json.decode(response.body)['error_description']);
+    }
+  }
 }
