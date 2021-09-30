@@ -58,6 +58,7 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);}))
           ],
         ));
       }
@@ -101,6 +102,10 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
                       )),
                       DataColumn(label: Text(
                           'Tipo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                     ],

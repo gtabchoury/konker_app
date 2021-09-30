@@ -1,7 +1,5 @@
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/RestDestination.dart';
 import 'package:konker_app/services/RestDestinationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';

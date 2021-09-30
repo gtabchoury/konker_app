@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:konker_app/models/RestDestination.dart';
 import 'package:konker_app/pages/AddDevice.dart';
 import 'package:konker_app/pages/AddGateway.dart';
+import 'package:konker_app/pages/AddRestDestination.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
 import 'package:konker_app/pages/Gateways.dart';
@@ -35,6 +36,8 @@ class MyApp extends StatelessWidget {
         "/rest-destinations": (_) => RestDestinationsPage(),
         "/new-device": (_) => AddDevicePage(),
         "/new-gateway": (_) => AddGatewayPage(),
+        "/new-rest-destination": (_) => AddRestDestinationPage(),
+        "/new-event-route": (_) => AddRestDestinationPage(),
       },
     );
   }
