@@ -37,7 +37,6 @@ class RestDestination {
 
   Map<String, dynamic> toJson() =>
       {
-          'guid': guid,
           'name': name,
           'method': method,
           'serviceURI': serviceURI,

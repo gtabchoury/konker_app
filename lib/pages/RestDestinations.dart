@@ -36,6 +36,13 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
 
         try{
           await RestDestinationService.delete(restDestinationGuid, "default", token!);
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Destino rest removido com sucesso!"),
+            backgroundColor: Colors.green,
+          ));
+
+          Navigator.popAndPushNamed(context,'/dashboard');
         } on Exception catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),

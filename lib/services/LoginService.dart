@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:konker_app/models/AuthTokenResponse.dart';
 import 'package:http/http.dart' as http;
+import 'package:konker_app/models/NewUser.dart';
 import 'package:konker_app/utils/Constants.dart';
 
 class LoginService {
@@ -27,6 +28,26 @@ class LoginService {
       return tokenResponse;
     } else {
       throw Exception("Invalid credentials");
+    }
+  }
+
+  static Future<bool> createAccount(NewUser newUser) async{
+    var headers = {
+      'Content-Type': 'application/json'
+    };
+
+    var jsonBody = jsonEncode(newUser.toJson());
+
+    http.Response response = await http.post(
+        Uri.parse('${Constants.BASE_API_URL}/userSubscription'),
+        headers: headers,
+        body: jsonBody
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return true;
+    } else {
+      throw Exception(response.body.toString());
     }
   }
 }

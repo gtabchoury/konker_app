@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:konker_app/models/RestDestination.dart';
+import 'package:konker_app/pages/RestDestinations.dart';
 import 'package:konker_app/services/RestDestinationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +14,6 @@ class AddRestDestinationPage extends StatefulWidget {
 
 class _AddRestDestinationPageState extends State<AddRestDestinationPage> {
 
-  TextEditingController _guidController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _methodController = new TextEditingController();
   TextEditingController _serviceURIController = new TextEditingController();
@@ -28,7 +28,6 @@ class _AddRestDestinationPageState extends State<AddRestDestinationPage> {
   Future<void> _createRestDestination() async {
       try{
         RestDestination restDestination = new RestDestination(
-            guid: _guidController.text,
             name: _nameController.text,
             method: _methodController.text,
             serviceURI: _serviceURIController.text,
@@ -43,6 +42,13 @@ class _AddRestDestinationPageState extends State<AddRestDestinationPage> {
         String? token = prefs.getString("token");
 
         restDestination = await RestDestinationService.create(restDestination, "default", token!);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Destino rest criado com sucesso!"),
+          backgroundColor: Colors.green,
+        ));
+
+        Navigator.popAndPushNamed(context,'/dashboard');
       } on Exception catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(e.toString()),
@@ -67,24 +73,6 @@ class _AddRestDestinationPageState extends State<AddRestDestinationPage> {
             Padding(padding: EdgeInsets.only(bottom: 15)),
             Text("Criar Novo Destino Rest",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xffb667978), ),),
-            Padding(padding: EdgeInsets.only(bottom: 15)),
-            TextField(
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(10,1,10,1),
-                  border: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffb667978), width: 2),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xffb667978), width: 2),
-                  ),
-                  labelText: "Guid",
-                  labelStyle: TextStyle(color: Color(0xffb667978), fontSize: 14),
-                  hintText: "digite o guid do destino Rest"
-              ),
-              style: TextStyle(fontSize: 14),
-              controller: this._guidController,
-            ),
             Padding(padding: EdgeInsets.only(bottom: 15)),
             TextField(
               decoration: InputDecoration(

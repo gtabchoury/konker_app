@@ -38,6 +38,13 @@ class _GatewayPageState extends State<GatewayPage> {
 
         try{
           await GatewayService.delete(gatewayGuid, "default", token!);
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Gateway removido com sucesso!"),
+            backgroundColor: Colors.green,
+          ));
+
+          Navigator.popAndPushNamed(context,'/dashboard');
         } on Exception catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),

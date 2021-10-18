@@ -38,7 +38,6 @@ class Device {
     'name': name,
     'description': description,
     'locationName': locationName,
-    'deviceModelName': deviceModelName,
     'active': active,
     'debug': debug,
   };

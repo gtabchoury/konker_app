@@ -23,7 +23,6 @@ class _DashBoardPageState extends State<DashBoardPage> {
 
   @override
   Widget build(BuildContext context) {
-
     String _userName = "Usuário";
     String _userEmail = "";
 

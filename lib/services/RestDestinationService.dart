@@ -41,9 +41,9 @@ class RestDestinationService {
     );
 
     if (response.statusCode == 201 || response.statusCode == 200) {
-      return RestDestination.fromJson(json.decode(response.body));
+      return RestDestination.fromJson(json.decode(response.body)['result']);
     } else {
-      throw Exception("Erro ao cadastrar destino Rest: "+json.decode(response.body)['error_description']);
+      throw Exception("Erro ao cadastrar destino Rest: "+response.body);
     }
   }
 
@@ -57,10 +57,10 @@ class RestDestinationService {
       headers: headers,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 204) {
       return true;
     } else {
-      throw Exception("Erro ao remover destino Rest: "+json.decode(response.body)['error_description']);
+      throw Exception("Erro ao remover destino Rest: "+response.body);
     }
   }
 

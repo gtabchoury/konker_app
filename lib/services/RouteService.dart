@@ -34,10 +34,10 @@ class RouteService {
       headers: headers,
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 204) {
       return true;
     } else {
-      throw Exception("Erro ao remover roteador de evento: "+json.decode(response.body)['error_description']);
+      throw Exception("Erro ao remover roteador de evento: "+response.body);
     }
   }
 }

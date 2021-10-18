@@ -34,6 +34,13 @@ class _RoutesPageState extends State<RoutesPage> {
 
         try{
           await RouteService.delete(routeUuid, "default", token!);
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Roteador de evento removido com sucesso!"),
+            backgroundColor: Colors.green,
+          ));
+
+          Navigator.popAndPushNamed(context,'/dashboard');
         } on Exception catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),

@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/models/AuthTokenResponse.dart';
 import 'package:konker_app/models/User.dart';
+import 'package:konker_app/pages/CreateAccount.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/services/LoginService.dart';
 import 'package:konker_app/services/UserService.dart';
@@ -137,7 +138,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(padding: EdgeInsets.only(bottom: 20)),
               RaisedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => CreateAccountPage()),
+                          (Route<dynamic> route) => false,
+                    );
+                  },
                   padding: EdgeInsets.fromLTRB(40,15,40,15),
                   color: Colors.white,
                   textColor: Color(0xffb062c61),

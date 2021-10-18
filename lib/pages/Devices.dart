@@ -37,6 +37,13 @@ class _DevicesPageState extends State<DevicesPage> {
 
         try{
           await DeviceService.delete(deviceGuid, "default", token!);
+
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Dispositivo removido com sucesso!"),
+            backgroundColor: Colors.green,
+          ));
+
+          Navigator.popAndPushNamed(context,'/dashboard');
         } on Exception catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),

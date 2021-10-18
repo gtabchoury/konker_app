@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
 import 'package:konker_app/models/Gateway.dart';
+import 'package:konker_app/pages/Gateways.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:konker_app/services/GatewayService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,13 @@ class _AddGatewayPageState extends State<AddGatewayPage> {
         String? token = prefs.getString("token");
 
         gateway = await GatewayService.create(gateway, "default", token!);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Gateway criado com sucesso!"),
+          backgroundColor: Colors.green,
+        ));
+
+        Navigator.popAndPushNamed(context,'/dashboard');
       } on Exception catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(e.toString()),

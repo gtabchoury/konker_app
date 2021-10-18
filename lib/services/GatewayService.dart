@@ -38,10 +38,13 @@ class GatewayService {
         body: jsonBody
     );
 
+    print("BODY: "+response.body);
+    print("STATUS: "+response.statusCode.toString());
+
     if (response.statusCode == 201 || response.statusCode == 200) {
-      return Gateway.fromJson(json.decode(response.body));
+      return Gateway.fromJson(json.decode(response.body)['result']);
     } else {
-      throw Exception("Erro ao cadastrar gateway: "+json.decode(response.body)['error_description']);
+      throw Exception("Erro ao cadastrar gateway: "+response.body);
     }
   }
 
@@ -55,10 +58,13 @@ class GatewayService {
       headers: headers,
     );
 
-    if (response.statusCode == 200) {
+    print("BODY: "+response.body);
+    print("STATUS: "+response.statusCode.toString());
+
+    if (response.statusCode == 200 || response.statusCode == 204) {
       return true;
     } else {
-      throw Exception("Erro ao remover gateway: "+json.decode(response.body)['error_description']);
+      throw Exception("Erro ao remover gateway: "+response.body);
     }
   }
 }

@@ -29,6 +29,13 @@ class _ProfilePageState extends State<ProfilePage> {
     Future<void> _saveProfile() async{
       try{
         await UserService.updateProfile(_emailController.text, _nameController.text, _phoneController.text, _token);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Perfil atualizado com sucesso!"),
+          backgroundColor: Colors.green,
+        ));
+
+        Navigator.popAndPushNamed(context,'/profile');
       } on Exception catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(e.toString()),

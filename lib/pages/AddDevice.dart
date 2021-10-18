@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
+import 'package:konker_app/pages/Devices.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +19,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
   TextEditingController _idController = new TextEditingController();
   TextEditingController _nameController = new TextEditingController();
   TextEditingController _descController = new TextEditingController();
-  TextEditingController _modelNameController = new TextEditingController();
   TextEditingController _locationController = new TextEditingController();
 
   bool debug = false;
@@ -30,7 +30,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
             id: _idController.text,
             name: _nameController.text,
             description: _descController.text,
-            deviceModelName: _modelNameController.text,
             locationName: _locationController.text,
             active: active,
             debug: debug
@@ -41,6 +40,13 @@ class _AddDevicePageState extends State<AddDevicePage> {
         String? token = prefs.getString("token");
 
         device = await DeviceService.create(device, "default", token!);
+
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Dispositivo criado com sucesso!"),
+          backgroundColor: Colors.green,
+        ));
+
+        Navigator.popAndPushNamed(context,'/dashboard');
       } on Exception catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(e.toString()),
@@ -100,24 +106,6 @@ class _AddDevicePageState extends State<AddDevicePage> {
               ),
               style: TextStyle(fontSize: 14),
               controller: this._nameController,
-            ),
-            Padding(padding: EdgeInsets.only(bottom: 15)),
-            TextField(
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.fromLTRB(10,1,10,1),
-                border: OutlineInputBorder(),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xffb00a69c), width: 2),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xffb00a69c), width: 2),
-                ),
-                labelText: "Nome do Modelo",
-                labelStyle: TextStyle(color: Color(0xffb00a69c), fontSize: 14),
-                hintText: "digite o nome do modelo do dispositivo",
-              ),
-              style: TextStyle(fontSize: 14),
-              controller: this._modelNameController,
             ),
             Padding(padding: EdgeInsets.only(bottom: 15)),
             TextField(

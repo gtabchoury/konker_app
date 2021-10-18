@@ -26,8 +26,8 @@ class _MyCardState extends State<MyCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
-      width: 150,
-      height: 150,
+      width: 160,
+      height: 160,
       color: widget.color,
       child: Column(
         children: [
