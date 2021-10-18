@@ -23,6 +23,23 @@ class DeviceService {
     }
   }
 
+  static Future<Device> getByGuid(String guid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken'
+    };
+
+    http.Response response = await http.get(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/devices/$guid/'),
+        headers: headers
+    );
+
+    if (response.statusCode == 200) {
+      return Device.fromJson(json.decode(response.body)['result']);
+    } else {
+      throw Exception("Erro ao obter dispositivo");
+    }
+  }
+
   static Future<Device> create(Device device, String applicationName, String authToken) async{
     var headers = {
       'Authorization': 'Bearer $authToken',
@@ -44,6 +61,26 @@ class DeviceService {
       return Device.fromJson(json.decode(response.body)['result']);
     } else {
       throw Exception("Erro ao cadastrar dispositivo: "+response.body);
+    }
+  }
+
+  static Future<bool> edit(Device device, String guid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json'
+    };
+
+    var jsonBody = jsonEncode(device.toJson());
+    http.Response response = await http.put(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/devices/$guid/'),
+        headers: headers,
+        body: jsonBody
+    );
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erro ao atualizar dispositivo: "+response.body);
     }
   }
 

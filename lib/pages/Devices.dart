@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
+import 'package:konker_app/pages/EditDevice.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
@@ -22,6 +23,15 @@ class _DevicesPageState extends State<DevicesPage> {
     String _dispositivos = "";
 
     List<DataRow> _rows = <DataRow>[];
+
+    void _editDevice(String guid) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return EditDevicePage(guid: guid);
+        }),
+      );
+    }
 
     Future<void> _removeDevice(String deviceGuid, String deviceName) async {
       if (await confirm(
@@ -66,7 +76,8 @@ class _DevicesPageState extends State<DevicesPage> {
             DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
-            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeDevice(d.guid!, d.name);}))
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeDevice(d.guid!, d.name);})),
+            DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editDevice(d.guid!);}))
           ],
         ));
       }
@@ -110,6 +121,10 @@ class _DevicesPageState extends State<DevicesPage> {
                       )),
                       DataColumn(label: Text(
                           'Ativo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
