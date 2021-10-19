@@ -76,10 +76,14 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
           cells: [
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.serviceURI, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.serviceUsername ?? "", style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.servicePassword ?? "", style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
+            DataCell(Text(d.body ?? "", style: TextStyle(fontSize: 14),)),
             DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);})),
             DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editRestDestination(d.guid!);}))
-          ],
+        ],
         ));
       }
       return true;
@@ -122,6 +126,26 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
                       )),
                       DataColumn(label: Text(
                           'Tipo',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
