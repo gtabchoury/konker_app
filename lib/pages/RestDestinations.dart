@@ -74,15 +74,15 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
       for (RestDestination d in restDestinations){
         _rows.add(new DataRow(
           cells: [
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);})),
+            DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editRestDestination(d.guid!);})),
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.serviceURI, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.serviceUsername ?? "", style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.servicePassword ?? "", style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.body ?? "", style: TextStyle(fontSize: 14),)),
-            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);})),
-            DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editRestDestination(d.guid!);}))
+            DataCell(Text(d.body ?? "", style: TextStyle(fontSize: 14),))
         ],
         ));
       }
@@ -117,6 +117,14 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
                 DataTable(
                     columns: [
                       DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
+                          '',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
+                      )),
+                      DataColumn(label: Text(
                           'Nome',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
@@ -125,15 +133,7 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
-                          'Tipo',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          '',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          '',
+                          'URI',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
                       )),
                       DataColumn(label: Text(
