@@ -6,6 +6,7 @@ import 'package:konker_app/models/RestDestination.dart';
 import 'package:konker_app/services/RestDestinationService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:konker_app/pages/EditRestDestination.dart';
 
 
 class RestDestinationsPage extends StatefulWidget {
@@ -21,6 +22,17 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
   Widget build(BuildContext context) {
 
     List<DataRow> _rows = <DataRow>[];
+
+    void _editRestDestination(String guid) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return EditRestDestinationPage(guid: guid);
+        }),
+      );
+    }
+
+
 
     Future<void> _removeRestDestination(String restDestinationGuid, String restDestinationName) async {
       if (await confirm(
@@ -65,7 +77,8 @@ class _RestDestinationsPageState extends State<RestDestinationsPage> {
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.method, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.type, style: TextStyle(fontSize: 14),)),
-            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);}))
+            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRestDestination(d.guid!, d.name);})),
+            DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editRestDestination(d.guid!);}))
           ],
         ));
       }

@@ -24,6 +24,23 @@ class RestDestinationService {
     }
   }
 
+  static Future<RestDestination> getByGuid(String guid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken'
+    };
+
+    http.Response response = await http.get(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/restDestinations/$guid/'),
+        headers: headers
+    );
+
+    if (response.statusCode == 200) {
+      return RestDestination.fromJson(json.decode(response.body)['result']);
+    } else {
+      throw Exception("Erro ao obter destino Rest");
+    }
+  }
+
   static Future<RestDestination> create(RestDestination restDestination, String applicationName, String authToken) async{
     var headers = {
       'Authorization': 'Bearer $authToken',
@@ -44,6 +61,26 @@ class RestDestinationService {
       return RestDestination.fromJson(json.decode(response.body)['result']);
     } else {
       throw Exception("Erro ao cadastrar destino Rest: "+response.body);
+    }
+  }
+
+  static Future<bool> edit(RestDestination restDestination, String guid, String applicationName, String authToken) async{
+    var headers = {
+      'Authorization': 'Bearer $authToken',
+      'Content-Type': 'application/json'
+    };
+
+    var jsonBody = jsonEncode(restDestination.toJson());
+    http.Response response = await http.put(
+        Uri.parse('${Constants.BASE_API_URL}/$applicationName/restDestinations/$guid/'),
+        headers: headers,
+        body: jsonBody
+    );
+
+    if (response.statusCode == 201 || response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Erro ao atualizar destino Rest: "+response.body);
     }
   }
 
