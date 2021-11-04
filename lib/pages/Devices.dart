@@ -74,19 +74,19 @@ class _DevicesPageState extends State<DevicesPage> {
             DataCell(GestureDetector(
                 child: Text(
                   d.id,
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 12),
                 ),
                 onTap: () {
                   Navigator.pushNamed(context, "/devicesevents");
                 })),
             DataCell(Text(
               d.name,
-              style: TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: 12),
             )),
             DataCell(Text(
               d.active! ? "Sim" : "Não",
               style: TextStyle(
-                  fontSize: 14, color: d.active! ? Colors.green : Colors.red),
+                  fontSize: 12, color: d.active! ? Colors.green : Colors.red),
             )),
             DataCell(GestureDetector(
                 child: Icon(
@@ -143,23 +143,23 @@ class _DevicesPageState extends State<DevicesPage> {
                       DataColumn(
                           label: Text('ID',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                                  fontSize: 14, fontWeight: FontWeight.bold))),
                       DataColumn(
                           label: Text('Nome',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                                  fontSize: 14, fontWeight: FontWeight.bold))),
                       DataColumn(
                           label: Text('Ativo',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                                  fontSize: 14, fontWeight: FontWeight.bold))),
                       DataColumn(
                           label: Text('',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                                  fontSize: 14, fontWeight: FontWeight.bold))),
                       DataColumn(
                           label: Text('',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                                  fontSize: 14, fontWeight: FontWeight.bold))),
                     ],
                     rows: _rows,
                     columnSpacing: 20,
