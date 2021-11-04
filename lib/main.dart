@@ -5,6 +5,7 @@ import 'package:konker_app/pages/AddGateway.dart';
 import 'package:konker_app/pages/AddRestDestination.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
+import 'package:konker_app/pages/DevicesEvents.dart';
 import 'package:konker_app/pages/Gateways.dart';
 import 'package:konker_app/pages/Login.dart';
 import 'package:konker_app/pages/Profile.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         "/new-gateway": (_) => AddGatewayPage(),
         "/new-rest-destination": (_) => AddRestDestinationPage(),
         "/new-event-route": (_) => AddRestDestinationPage(),
+        "/devicesevents": (_) => DevicesEvents(),
       },
     );
   }

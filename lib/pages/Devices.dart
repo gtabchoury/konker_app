@@ -16,10 +16,8 @@ class DevicesPage extends StatefulWidget {
 }
 
 class _DevicesPageState extends State<DevicesPage> {
-
   @override
   Widget build(BuildContext context) {
-
     String _dispositivos = "";
 
     List<DataRow> _rows = <DataRow>[];
@@ -40,12 +38,12 @@ class _DevicesPageState extends State<DevicesPage> {
         content: Text('Deseja realmente remover este dispositivo?'),
         textOK: Text('Sim'),
         textCancel: Text('Cancelar'),
-      )){
+      )) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
 
         String? token = prefs.getString("token");
 
-        try{
+        try {
           await DeviceService.delete(deviceGuid, "default", token!);
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -53,7 +51,7 @@ class _DevicesPageState extends State<DevicesPage> {
             backgroundColor: Colors.green,
           ));
 
-          Navigator.popAndPushNamed(context,'/dashboard');
+          Navigator.popAndPushNamed(context, '/dashboard');
         } on Exception catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(e.toString()),
@@ -70,14 +68,42 @@ class _DevicesPageState extends State<DevicesPage> {
 
       List<Device> devices = await DeviceService.getAll("default", token!);
 
-      for (Device d in devices){
+      for (Device d in devices) {
         _rows.add(new DataRow(
           cells: [
-            DataCell(Text(d.id, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active! ? Colors.green : Colors.red),)),
-            DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeDevice(d.guid!, d.name);})),
-            DataCell(GestureDetector(child: Icon(Icons.edit, color: Colors.blue,), onTap: () {_editDevice(d.guid!);}))
+            DataCell(GestureDetector(
+                child: Text(
+                  d.id,
+                  style: TextStyle(fontSize: 14),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/devicesevents");
+                })),
+            DataCell(Text(
+              d.name,
+              style: TextStyle(fontSize: 14),
+            )),
+            DataCell(Text(
+              d.active! ? "Sim" : "Não",
+              style: TextStyle(
+                  fontSize: 14, color: d.active! ? Colors.green : Colors.red),
+            )),
+            DataCell(GestureDetector(
+                child: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+                onTap: () {
+                  _removeDevice(d.guid!, d.name);
+                })),
+            DataCell(GestureDetector(
+                child: Icon(
+                  Icons.edit,
+                  color: Colors.blue,
+                ),
+                onTap: () {
+                  _editDevice(d.guid!);
+                }))
           ],
         ));
       }
@@ -89,61 +115,61 @@ class _DevicesPageState extends State<DevicesPage> {
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Color(0xffb00a69c),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Dispositivos",
-                      style: TextStyle(color: Colors.white, fontSize: 15),),
-                    RaisedButton.icon(
-                        onPressed: (){
-                          Navigator.pushNamed(context, "/new-device");
-                        },
-                        color: Colors.white,
-                        textColor: Color(0xffb00a69c),
-                        icon: Icon(Icons.add),
-                        label: Text("Criar Novo", style: TextStyle(fontSize: 14),)
-                    ),
-                  ],
-                )
-              ),
-              body: ListView(children: <Widget>[
-                DataTable(
+                appBar: AppBar(
+                    backgroundColor: Color(0xffb00a69c),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Dispositivos",
+                          style: TextStyle(color: Colors.white, fontSize: 15),
+                        ),
+                        RaisedButton.icon(
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/new-device");
+                            },
+                            color: Colors.white,
+                            textColor: Color(0xffb00a69c),
+                            icon: Icon(Icons.add),
+                            label: Text(
+                              "Criar Novo",
+                              style: TextStyle(fontSize: 14),
+                            )),
+                      ],
+                    )),
+                body: ListView(children: <Widget>[
+                  DataTable(
                     columns: [
-                      DataColumn(label: Text(
-                          'ID',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          'Nome',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          'Ativo',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          '',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
-                      DataColumn(label: Text(
-                          '',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)
-                      )),
+                      DataColumn(
+                          label: Text('ID',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Nome',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Ativo',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold))),
                     ],
                     rows: _rows,
-                  columnSpacing: 20,
-                ),
-              ])
-            );
+                    columnSpacing: 20,
+                  ),
+                ]));
           } else {
-            return MyLoading(color: Color(0xffb00a69c),);
+            return MyLoading(
+              color: Color(0xffb00a69c),
+            );
           }
-        }
-    );
+        });
   }
-
-
-
 }
