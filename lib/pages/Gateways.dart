@@ -6,7 +6,7 @@ import 'package:konker_app/models/EventRoute.dart';
 import 'package:konker_app/models/Gateway.dart';
 import 'package:konker_app/pages/EditGateways.dart';
 import 'package:konker_app/services/GatewayService.dart';
-import 'package:konker_app/services/RouteService.dart';
+import 'package:konker_app/services/EventRouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 

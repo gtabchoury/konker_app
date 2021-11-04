@@ -1,7 +1,7 @@
 class EventRoute {
   String name;
   String? description;
-  bool active;
+  bool? active;
   String? guid;
   String? incomingType;
   String? outgoingType;
@@ -26,4 +26,14 @@ class EventRoute {
         outgoingType: parsedJson ['outgoing']['type'] ?? null
     );
   }
+
+  Map<String, dynamic> toJson() =>
+      {
+        'name': name,
+        'description': description,
+        'active': active,
+        'guid': guid,
+        'incoming': { 'type': incomingType },
+        'outgoing': { 'type': outgoingType },
+      };
 }

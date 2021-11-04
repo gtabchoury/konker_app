@@ -3,22 +3,32 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/EventRoute.dart';
-import 'package:konker_app/services/RouteService.dart';
+import 'package:konker_app/services/EventRouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
+import 'package:konker_app/pages/EditEventRoute.dart';
 
-class RoutesPage extends StatefulWidget {
-  const RoutesPage({Key? key}) : super(key: key);
+class EventRoutesPage extends StatefulWidget {
+  const EventRoutesPage({Key? key}) : super(key: key);
 
   @override
-  _RoutesPageState createState() => _RoutesPageState();
+  _EventRoutesPageState createState() => _EventRoutesPageState();
 }
 
-class _RoutesPageState extends State<RoutesPage> {
+class _EventRoutesPageState extends State<EventRoutesPage> {
   @override
   Widget build(BuildContext context) {
 
     List<DataRow> _rows = <DataRow>[];
+
+    void _editRoute(String guid) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return EditEventRoutePage(guid: guid);
+        }),
+      );
+    }
 
     Future<void> _removeRoute(String routeUuid, String routeName) async {
       if (await confirm(
@@ -33,7 +43,7 @@ class _RoutesPageState extends State<RoutesPage> {
         String? token = prefs.getString("token");
 
         try{
-          await RouteService.delete(routeUuid, "default", token!);
+          await EventRouteService.delete(routeUuid, "default", token!);
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Roteador de evento removido com sucesso!"),
@@ -50,12 +60,12 @@ class _RoutesPageState extends State<RoutesPage> {
       }
     }
 
-    Future<bool> loadRoutes() async {
+    Future<bool> loadEventRoutes() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
       String? token = prefs.getString("token");
 
-      List<EventRoute> routes = await RouteService.getAll("default", token!);
+      List<EventRoute> routes = await EventRouteService.getAll("default", token!);
 
       for (EventRoute d in routes){
         _rows.add(new DataRow(
@@ -63,7 +73,7 @@ class _RoutesPageState extends State<RoutesPage> {
             DataCell(Text(d.name, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.incomingType!, style: TextStyle(fontSize: 14),)),
             DataCell(Text(d.outgoingType!, style: TextStyle(fontSize: 14),)),
-            DataCell(Text(d.active ? "Sim" : "Não", style: TextStyle(fontSize: 14, color: d.active ? Colors.green : Colors.red),)),
+            DataCell(Text( d.active! ? "Sim" : "Não", style: TextStyle(fontSize: 14, color:  d.active! ? Colors.green : Colors.red),)),
             DataCell(GestureDetector(child: Icon(Icons.delete, color: Colors.red,), onTap: () {_removeRoute(d.guid!, d.name);}))
           ],
         ));
@@ -72,7 +82,7 @@ class _RoutesPageState extends State<RoutesPage> {
     }
 
     return FutureBuilder<bool>(
-        future: loadRoutes(),
+        future: loadEventRoutes(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             return Scaffold(

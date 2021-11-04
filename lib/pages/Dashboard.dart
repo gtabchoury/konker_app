@@ -8,7 +8,7 @@ import 'package:konker_app/models/Gateway.dart';
 import 'package:konker_app/pages/Login.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:konker_app/services/GatewayService.dart';
-import 'package:konker_app/services/RouteService.dart';
+import 'package:konker_app/services/EventRouteService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -27,7 +27,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     String _userEmail = "";
 
     int _totalDevices = 0;
-    int _totalRoutes = 0;
+    int _totalEventRoutes = 0;
     int _totalGateways = 0;
 
     Future<void> _logout() async{
@@ -53,11 +53,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
       if (token!=null){
         try{
           List<Device> devices = await DeviceService.getAll("default", token);
-          List<EventRoute> routes = await RouteService.getAll("default", token);
+          List<EventRoute> routes = await EventRouteService.getAll("default", token);
           List<Gateway> gateways = await GatewayService.getAll("default", token);
 
           _totalDevices = devices.length;
-          _totalRoutes = routes.length;
+          _totalEventRoutes = routes.length;
           _totalGateways = gateways.length;
 
         } on Exception catch (_) {
@@ -151,7 +151,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             icon: Icon(Icons.alt_route, size: 40, color: Colors.white),
                             color: Color(0xffbfbaf41),
                             title: "ROTEADORES DE EVENTOS",
-                            count: _totalRoutes,
+                            count: _totalEventRoutes,
                           ),
                           onTap: () {
                             Navigator.pushNamed(context, "/routes");
@@ -177,7 +177,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                             icon: Icon(Icons.account_balance, size: 40, color: Colors.white),
                             color: Color(0xffb667978),
                             title: "DESTINOS REST",
-                            count: _totalRoutes,
+                            count: _totalEventRoutes,
                           ),
                           onTap: () {
                             Navigator.pushNamed(context, "/rest-destinations");
