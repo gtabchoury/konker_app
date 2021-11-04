@@ -5,10 +5,11 @@ import 'package:konker_app/pages/AddGateway.dart';
 import 'package:konker_app/pages/AddRestDestination.dart';
 import 'package:konker_app/pages/Dashboard.dart';
 import 'package:konker_app/pages/Devices.dart';
+import 'package:konker_app/pages/DevicesEvents.dart';
 import 'package:konker_app/pages/Gateways.dart';
 import 'package:konker_app/pages/Login.dart';
 import 'package:konker_app/pages/Profile.dart';
-import 'package:konker_app/pages/Routes.dart';
+import 'package:konker_app/pages/EventRoutes.dart';
 import 'package:konker_app/pages/RestDestinations.dart';
 
 void main() {
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         "/dashboard": (_) => DashBoardPage(),
         "/login": (_) => LoginPage(),
         "/devices": (_) => DevicesPage(),
-        "/routes": (_) => RoutesPage(),
+        "/routes": (_) => EventRoutesPage(),
         "/profile": (_) => ProfilePage(),
         "/gateways": (_) => GatewayPage(),
         "/rest-destinations": (_) => RestDestinationsPage(),
