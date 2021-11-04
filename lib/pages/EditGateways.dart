@@ -82,7 +82,7 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
           "Editar Gateway",
           style: TextStyle(color: Colors.white, fontSize: 15),
         ),
-        backgroundColor: Color(0xffb00a69c),
+        backgroundColor: Color(0xffbe54182),
       ),
       body: Container(
           padding: EdgeInsets.all(25),
@@ -95,7 +95,7 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xffb00a69c),
+                    color: Color(0xffbe54182),
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 15)),
@@ -105,15 +105,15 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                     border: OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     labelText: "Nome",
                     labelStyle:
-                        TextStyle(color: Color(0xffb00a69c), fontSize: 14),
+                        TextStyle(color: Color(0xffbe54182), fontSize: 14),
                     hintText: "digite o nome do dispositivo",
                   ),
                   style: TextStyle(fontSize: 14),
@@ -126,15 +126,15 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                     border: OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     labelText: "Localização",
                     labelStyle:
-                        TextStyle(color: Color(0xffb00a69c), fontSize: 14),
+                        TextStyle(color: Color(0xffbe54182), fontSize: 14),
                     hintText: "digite a localização dispositivo",
                   ),
                   style: TextStyle(fontSize: 14),
@@ -147,15 +147,15 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                     border: OutlineInputBorder(),
                     enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(color: Color(0xffb00a69c), width: 2),
+                          BorderSide(color: Color(0xffbe54182), width: 2),
                     ),
                     labelText: "Descrição",
                     labelStyle:
-                        TextStyle(color: Color(0xffb00a69c), fontSize: 14),
+                        TextStyle(color: Color(0xffbe54182), fontSize: 14),
                     hintText: "Descrição do dispositivo",
                   ),
                   style: TextStyle(fontSize: 14),
@@ -176,7 +176,7 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                         child: Text(
                           "Debug",
                           style: TextStyle(
-                              color: Color(0xffb00a69c), fontSize: 16),
+                              color: Color(0xffbe54182), fontSize: 16),
                         ),
                         onTap: () {
                           setState(() {});
@@ -194,7 +194,7 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                         child: Text(
                           "Ativo",
                           style: TextStyle(
-                              color: Color(0xffb00a69c), fontSize: 16),
+                              color: Color(0xffbe54182), fontSize: 16),
                         ),
                         onTap: () {
                           setState(() {
@@ -207,7 +207,7 @@ class _EditGatewayPageState extends State<EditGatewayPage> {
                 RaisedButton.icon(
                     onPressed: _editGateway,
                     padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    color: Color(0xffb00a69c),
+                    color: Color(0xffbe54182),
                     textColor: Colors.white,
                     icon: Icon(Icons.refresh),
                     label: Text(

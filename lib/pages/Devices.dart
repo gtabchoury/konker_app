@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:konker_app/components/MyLoading.dart';
 import 'package:konker_app/models/Device.dart';
+import 'package:konker_app/pages/DevicesEvents.dart';
 import 'package:konker_app/pages/EditDevice.dart';
 import 'package:konker_app/services/DeviceService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,18 @@ class _DevicesPageState extends State<DevicesPage> {
         context,
         MaterialPageRoute(builder: (context) {
           return EditDevicePage(guid: guid);
+        }),
+      );
+    }
+
+    void _loadEvents(String guid, String name) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return DevicesEvents(
+            guid: guid,
+            name: name,
+          );
         }),
       );
     }
@@ -77,17 +90,26 @@ class _DevicesPageState extends State<DevicesPage> {
                   style: TextStyle(fontSize: 12),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, "/devicesevents");
+                  _loadEvents(d.guid!, d.name);
                 })),
-            DataCell(Text(
-              d.name,
-              style: TextStyle(fontSize: 12),
-            )),
-            DataCell(Text(
-              d.active! ? "Sim" : "Não",
-              style: TextStyle(
-                  fontSize: 12, color: d.active! ? Colors.green : Colors.red),
-            )),
+            DataCell(GestureDetector(
+                child: Text(
+                  d.name,
+                  style: TextStyle(fontSize: 12),
+                ),
+                onTap: () {
+                  _loadEvents(d.guid!, d.name);
+                })),
+            DataCell(GestureDetector(
+                child: Text(
+                  d.active! ? "Sim" : "Não",
+                  style: TextStyle(
+                      fontSize: 12,
+                      color: d.active! ? Colors.green : Colors.red),
+                ),
+                onTap: () {
+                  _loadEvents(d.guid!, d.name);
+                })),
             DataCell(GestureDetector(
                 child: Icon(
                   Icons.delete,

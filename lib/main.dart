@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
         "/new-gateway": (_) => AddGatewayPage(),
         "/new-rest-destination": (_) => AddRestDestinationPage(),
         "/new-event-route": (_) => AddRestDestinationPage(),
-        "/devicesevents": (_) => DevicesEvents(),
       },
     );
   }
