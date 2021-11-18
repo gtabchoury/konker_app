@@ -44,33 +44,35 @@ class _DevicesEventsState extends State<DevicesEvents> {
       List<dynamic> events = await DeviceService.getEvents("default", token!,
           widget.guid, selectedAtt_, selectedDateFrom_, selectedDateTo_);
 
-      Iterable i = events[0].keys;
+      if (events.length>0){
+        Iterable i = events[0].keys;
 
-      fieldsNames_ =
-          List<SelectFieldItem>.from(i.map((x) => SelectFieldItem(x, x)));
+        fieldsNames_ =
+        List<SelectFieldItem>.from(i.map((x) => SelectFieldItem(x, x)));
 
-      if (selectedAtt_.isNotEmpty) {
-        List<ChartItem> charItems = [];
-        for (var d in events) {
-          print(d);
-          DateTime dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss")
-              .parse(d["timestamp"].toString().substring(0, 19));
+        if (selectedAtt_.isNotEmpty) {
+          List<ChartItem> charItems = [];
+          for (var d in events) {
+            print(d);
+            DateTime dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                .parse(d["timestamp"].toString().substring(0, 19));
 
-          print(dateTime);
+            print(dateTime);
 
-          charItems.add(
-              ChartItem(double.parse(d[selectedAtt_].toString()), dateTime));
+            charItems.add(
+                ChartItem(double.parse(d[selectedAtt_].toString()), dateTime));
+          }
+
+          timeline_ = [
+            charts.Series(
+              id: "Resultado",
+              data: charItems,
+              colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+              domainFn: (ChartItem timeline, _) => timeline.date,
+              measureFn: (ChartItem timeline, _) => timeline.value,
+            )
+          ];
         }
-
-        timeline_ = [
-          charts.Series(
-            id: "Resultado",
-            data: charItems,
-            colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-            domainFn: (ChartItem timeline, _) => timeline.date,
-            measureFn: (ChartItem timeline, _) => timeline.value,
-          )
-        ];
       }
 
       return true;
