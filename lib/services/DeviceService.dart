@@ -4,8 +4,8 @@ import 'package:konker_app/models/Device.dart';
 import 'package:konker_app/utils/Constants.dart';
 
 class DeviceService {
-  static Future<List<Device>> getAll(
-      String applicationName, String authToken) async {
+  static Future<List<Device>> getAll(String applicationName,
+      String authToken) async {
     var headers = {'Authorization': 'Bearer $authToken'};
 
     http.Response response = await http.get(
@@ -20,8 +20,8 @@ class DeviceService {
     }
   }
 
-  static Future<Device> getByGuid(
-      String guid, String applicationName, String authToken) async {
+  static Future<Device> getByGuid(String guid, String applicationName,
+      String authToken) async {
     var headers = {'Authorization': 'Bearer $authToken'};
 
     http.Response response = await http.get(
@@ -35,8 +35,8 @@ class DeviceService {
     }
   }
 
-  static Future<Device> create(
-      Device device, String applicationName, String authToken) async {
+  static Future<Device> create(Device device, String applicationName,
+      String authToken) async {
     var headers = {
       'Authorization': 'Bearer $authToken',
       'Content-Type': 'application/json'
@@ -79,8 +79,8 @@ class DeviceService {
     }
   }
 
-  static Future<bool> delete(
-      String deviceGuid, String applicationName, String authToken) async {
+  static Future<bool> delete(String deviceGuid, String applicationName,
+      String authToken) async {
     var headers = {
       'Authorization': 'Bearer $authToken',
     };
@@ -98,18 +98,39 @@ class DeviceService {
     }
   }
 
-  static Future<List<dynamic>> getEvents(
-      String applicationName, String authToken, String device) async {
+  static Future<List<dynamic>> getEvents(String applicationName,
+      String authToken, String device, String att, String dateFrom,
+      String dateTo) async {
     var headers = {'Authorization': 'Bearer $authToken'};
+
+    if (dateFrom.isNotEmpty)
+      dateFrom = " timestamp:>$dateFrom";
+    else
+      dateFrom = "";
+
+    if (dateTo.isNotEmpty)
+      dateTo = " timestamp:<$dateTo";
+    else
+      dateTo = "";
 
     http.Response response = await http.get(
         Uri.parse(
-            '${Constants.BASE_API_URL}/$applicationName/incomingEvents?q=device:$device'),
+            '${Constants
+                .BASE_API_URL}/$applicationName/incomingEvents?q=device:$device$dateFrom$dateTo'),
         headers: headers);
 
     if (response.statusCode == 200) {
+      print(response.body);
+      List<Map<dynamic, dynamic>> result = [];
       Iterable l = json.decode(response.body)['result'];
-      return List<dynamic>.from(l.map((model) => model["payload"]));
+
+      for (final model in l) {
+        Map<dynamic, dynamic> event = model["payload"];
+        event["timestamp"] = model["timestamp"];
+        result.add(event);
+      }
+
+      return result;
     } else {
       throw Exception("Erro ao obter eventos do dispositivo");
     }

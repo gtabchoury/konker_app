@@ -32,6 +32,8 @@ dependencies:
   shared_preferences: ^2.0.7
   url_launcher: ^6.0.10
   confirm_dialog: ^1.0.0
+  date_field: ^2.1.2
+  charts_flutter: ^0.12.0
 
 dev_dependencies:
   flutter_test:
