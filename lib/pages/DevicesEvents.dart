@@ -44,6 +44,8 @@ class _DevicesEventsState extends State<DevicesEvents> {
       List<dynamic> events = await DeviceService.getEvents("default", token!,
           widget.guid, selectedAtt_, selectedDateFrom_, selectedDateTo_);
 
+      print(events.length);
+
       if (events.length>0){
         Iterable i = events[0].keys;
 
@@ -53,7 +55,6 @@ class _DevicesEventsState extends State<DevicesEvents> {
         if (selectedAtt_.isNotEmpty) {
           List<ChartItem> charItems = [];
           for (var d in events) {
-            print(d);
             DateTime dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss")
                 .parse(d["timestamp"].toString().substring(0, 19));
 
@@ -73,6 +74,8 @@ class _DevicesEventsState extends State<DevicesEvents> {
             )
           ];
         }
+      }else{
+        timeline_ = [];
       }
 
       return true;
@@ -119,10 +122,10 @@ class _DevicesEventsState extends State<DevicesEvents> {
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Data inicial',
                           ),
-                          mode: DateTimeFieldPickerMode.date,
+                          mode: DateTimeFieldPickerMode.dateAndTime,
                           onDateSelected: (DateTime value) {
                             selectedDateFrom_ =
-                                value.toString().substring(0, 10);
+                                value.toString().substring(0, 19);
                           },
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 20)),
@@ -134,9 +137,9 @@ class _DevicesEventsState extends State<DevicesEvents> {
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Data final',
                           ),
-                          mode: DateTimeFieldPickerMode.date,
+                          mode: DateTimeFieldPickerMode.dateAndTime,
                           onDateSelected: (DateTime value) {
-                            selectedDateTo_ = value.toString().substring(0, 10);
+                            selectedDateTo_ = value.toString().substring(0, 19);
                           },
                         ),
                         Padding(padding: EdgeInsets.only(bottom: 20)),
@@ -147,30 +150,31 @@ class _DevicesEventsState extends State<DevicesEvents> {
                             icon: Icon(Icons.search),
                             label: Text('Buscar')),
                         Padding(padding: EdgeInsets.only(bottom: 20)),
-                        Container(
-                          height: 400,
-                          padding: EdgeInsets.all(20),
-                          child: Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
-                                    selectedAtt_,
-                                  ),
-                                  Expanded(
-                                    child: charts.TimeSeriesChart(
-                                      timeline_,
-                                      animate: false,
-                                      dateTimeFactory:
-                                          const charts.LocalDateTimeFactory(),
+                        if (timeline_.length>0)
+                          Container(
+                            height: 400,
+                            padding: EdgeInsets.all(20),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
+                                      selectedAtt_,
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: charts.TimeSeriesChart(
+                                        timeline_,
+                                        animate: false,
+                                        dateTimeFactory:
+                                            const charts.LocalDateTimeFactory(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
                         Padding(padding: EdgeInsets.only(bottom: 20)),
                       ],
                     )));

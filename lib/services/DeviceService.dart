@@ -104,23 +104,25 @@ class DeviceService {
     var headers = {'Authorization': 'Bearer $authToken'};
 
     if (dateFrom.isNotEmpty)
-      dateFrom = " timestamp:>$dateFrom";
+      dateFrom = " timestamp:>${dateFrom.replaceAll(" ", "T")}";
     else
       dateFrom = "";
 
     if (dateTo.isNotEmpty)
-      dateTo = " timestamp:<$dateTo";
+      dateTo = " timestamp:<${dateTo.replaceAll(" ", "T")}";
     else
       dateTo = "";
 
+    String url = '${Constants
+        .BASE_API_URL}/$applicationName/incomingEvents?q=device:$device$dateFrom$dateTo&limit=10000';
+
+    print(url);
+
     http.Response response = await http.get(
-        Uri.parse(
-            '${Constants
-                .BASE_API_URL}/$applicationName/incomingEvents?q=device:$device$dateFrom$dateTo'),
+        Uri.parse(url),
         headers: headers);
 
     if (response.statusCode == 200) {
-      print(response.body);
       List<Map<dynamic, dynamic>> result = [];
       Iterable l = json.decode(response.body)['result'];
 
