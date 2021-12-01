@@ -38,7 +38,7 @@ apresentam-se a seguir alguns links úteis:
 
 
 #### Como colocar no ar, como testar, etc
-Após ter o flutter instalado e o simulador de ambiente Android, é necessário apenas abrir a pasta do projeto em sua IDE favorita (demos preferência ao VScode), rodar o ambiente android simulado e rodar a aplicação, ela estará funcional e navegável.
+Após ter o flutter instalado e o simulador de ambiente Android, é necessário apenas abrir a pasta do projeto em sua IDE favorita (demos preferência ao VScode), rodar o arquivo main.dart, o android simulado irá ser aberto e rodar a aplicação, ela estará funcional e navegável.
 
 #### Como acessar, quem pode se cadastrar(regras de acessos), etc.
 O acesso é simples, é necessário apenas fornecer o login e senha de uma conta existente. A criação de contas também é simples e já implementada, sem maiores obstáculos.
