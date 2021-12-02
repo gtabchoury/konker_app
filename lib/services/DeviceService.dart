@@ -114,10 +114,8 @@ class DeviceService {
       dateTo = "";
 
     String url = '${Constants
-        .BASE_API_URL}/$applicationName/incomingEvents?q=device:$device$dateFrom$dateTo&limit=10000';
-
-    print(url);
-
+        .BASE_API_URL}/$applicationName/incomingEvents?q=device:$device$dateFrom$dateTo&limit=5000';
+    
     http.Response response = await http.get(
         Uri.parse(url),
         headers: headers);

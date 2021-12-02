@@ -139,10 +139,9 @@ class _LoginPageState extends State<LoginPage> {
               Padding(padding: EdgeInsets.only(bottom: 20)),
               RaisedButton(
                   onPressed: (){
-                    Navigator.pushAndRemoveUntil(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CreateAccountPage()),
-                          (Route<dynamic> route) => false,
                     );
                   },
                   padding: EdgeInsets.fromLTRB(40,15,40,15),

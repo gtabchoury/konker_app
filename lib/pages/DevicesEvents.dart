@@ -31,6 +31,8 @@ class _DevicesEventsState extends State<DevicesEvents> {
   String selectedAtt_ = "";
   String selectedDateFrom_ = "";
   String selectedDateTo_ = "";
+  DateTime selectedDateFromDT_ = DateTime.now();
+  DateTime selectedDateToDT_ = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -44,39 +46,46 @@ class _DevicesEventsState extends State<DevicesEvents> {
       List<dynamic> events = await DeviceService.getEvents("default", token!,
           widget.guid, selectedAtt_, selectedDateFrom_, selectedDateTo_);
 
-      print(events.length);
+      print("Total de eventos: ${events.length}");
 
-      if (events.length>0){
-        Iterable i = events[0].keys;
+      try{
+        if (events.length>0){
+          Iterable i = events[0].keys;
 
-        fieldsNames_ =
-        List<SelectFieldItem>.from(i.map((x) => SelectFieldItem(x, x)));
+          fieldsNames_ =
+          List<SelectFieldItem>.from(i.map((x) => SelectFieldItem(x, x)));
 
-        if (selectedAtt_.isNotEmpty) {
-          List<ChartItem> charItems = [];
-          for (var d in events) {
-            DateTime dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss")
-                .parse(d["timestamp"].toString().substring(0, 19));
+          if (selectedAtt_.isNotEmpty) {
+            List<ChartItem> charItems = [];
+            for (var d in events) {
+              DateTime dateTime = DateFormat("yyyy-MM-ddTHH:mm:ss")
+                  .parse(d["timestamp"].toString().substring(0, 19));
 
-            print(dateTime);
+              charItems.add(
+                  ChartItem(double.parse(d[selectedAtt_].toString()), dateTime));
+            }
 
-            charItems.add(
-                ChartItem(double.parse(d[selectedAtt_].toString()), dateTime));
+            timeline_ = [
+              charts.Series(
+                id: "Resultado",
+                data: charItems,
+                colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+                domainFn: (ChartItem timeline, _) => timeline.date,
+                measureFn: (ChartItem timeline, _) => timeline.value,
+              )
+            ];
           }
-
-          timeline_ = [
-            charts.Series(
-              id: "Resultado",
-              data: charItems,
-              colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-              domainFn: (ChartItem timeline, _) => timeline.date,
-              measureFn: (ChartItem timeline, _) => timeline.value,
-            )
-          ];
+        }else{
+          timeline_ = [];
         }
-      }else{
+      }on Exception catch(e){
         timeline_ = [];
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Erro ao obter dados do dispositivo."),
+          backgroundColor: Colors.red,
+        ));
       }
+
 
       return true;
     }
@@ -84,7 +93,8 @@ class _DevicesEventsState extends State<DevicesEvents> {
     return FutureBuilder<bool>(
         future: loadDevices(),
         builder: (context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData) {
+          print(snapshot.connectionState);
+          if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
             return Scaffold(
                 appBar: AppBar(
                     backgroundColor: Color(0xffb00a69c),
@@ -106,7 +116,7 @@ class _DevicesEventsState extends State<DevicesEvents> {
                         Container(
                           child: MySelectField(
                               label: 'Propriedade',
-                              currentValue: '',
+                              currentValue: selectedAtt_,
                               items: fieldsNames_,
                               onChange: (String? s) {
                                 selectedAtt_ = s!;
@@ -122,8 +132,10 @@ class _DevicesEventsState extends State<DevicesEvents> {
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Data inicial',
                           ),
+                          initialValue: selectedDateFrom_=='' ? null : selectedDateFromDT_,
                           mode: DateTimeFieldPickerMode.dateAndTime,
                           onDateSelected: (DateTime value) {
+                            selectedDateFromDT_ = value;
                             selectedDateFrom_ =
                                 value.toString().substring(0, 19);
                           },
@@ -137,8 +149,10 @@ class _DevicesEventsState extends State<DevicesEvents> {
                             suffixIcon: Icon(Icons.event_note),
                             labelText: 'Data final',
                           ),
+                          initialValue: selectedDateTo_=='' ? null : selectedDateToDT_,
                           mode: DateTimeFieldPickerMode.dateAndTime,
                           onDateSelected: (DateTime value) {
+                            selectedDateToDT_ = value;
                             selectedDateTo_ = value.toString().substring(0, 19);
                           },
                         ),
